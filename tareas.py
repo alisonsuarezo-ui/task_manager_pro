@@ -1,6 +1,8 @@
 import json
 import os
 
+"""Proyecto llamado task manager pro, que permite gestionar 
+tareas y tener persistencia de datos atraves de un archivo JSON"""
 ARCHIVO_TAREAS = "tareas.json"
 
 
@@ -42,6 +44,31 @@ def eliminar_tarea(tareas):
     except ValueError:
         print("Ingresa un número válido.")
 
+def agregar_tarea(tareas):
+    titulo = input("\nEscribe el título de la tarea: ")
+    nueva_tarea = {
+        "id": len(tareas) + 1,
+        "titulo": titulo,
+        "completada": False
+    }
+    tareas.append(nueva_tarea)
+    guardar_tareas(tareas)
+    print("Tarea agregada correctamente.")
+
+
+def completar_tarea(tareas):
+    mostrar_tareas(tareas)
+    try:
+        tarea_id = int(input("\nIngresa el ID de la tarea completada: "))
+        for tarea in tareas:
+            if tarea["id"] == tarea_id:
+                tarea["completada"] = True
+                guardar_tareas(tareas)
+                print("Tarea marcada como completada.")
+                return
+        print("ID no encontrado.")
+    except ValueError:
+        print("Ingresa un número válido.")
 
 def menu():
     tareas = cargar_tareas()
@@ -61,8 +88,7 @@ TASK MASTER PRO
         if opcion == "1":
             mostrar_tareas(tareas)
         elif opcion == "2":
-            print("Falta implementar")
-            #agregar_tarea(tareas)
+            agregar_tarea(tareas)
         elif opcion == "3":
             print("Falta implementar")
             #Ecompletar_tarea(tareas)
